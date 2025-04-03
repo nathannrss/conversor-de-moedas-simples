@@ -39,13 +39,15 @@ if __name__ == "__main__":  # Corrigido "__name__" para "__main__"
 #melhorando o painel.
     nome = str(input("Olá como vai? Digite seu nome aqui!"))
     print(f'Olá {nome} é um prazer lhe ajudar com a sua conversão de moeda')
-    moeda_de_origem = input("Digite a moeda de origem(Ex: BRL, USD, EUR)").upper()
-    moeda_de_destino = input("Digite a moeda de Destino(Ex: BRL, USD, EUR)").upper()
-    valor = float(input("Digite o Valor aqui"))
 
-    try:
-        result = conver_moeda(valor, moeda_de_origem, moeda_de_destino)
-        print(f"{valor} {moeda_de_origem} igual à {result} {moeda_de_destino}")  # Corrigido "iqual" para "igual"
+    while True:  # Mantem o loop ate que a conversao seja bem-sucedida
+        moeda_de_origem = input("Digite a moeda de origem(Ex: BRL, USD, EUR)").upper()
+        moeda_de_destino = input("Digite a moeda de Destino(Ex: BRL, USD, EUR)").upper()
+        valor = float(input("Digite o Valor aqui"))
 
-    except Exception as e:
-        print(f"Erro: {e}")
+        try:
+            result = conver_moeda(valor, moeda_de_origem, moeda_de_destino)
+            print(f"{valor} {moeda_de_origem} igual à {result} {moeda_de_destino}")  # Corrigido "iqual" para "igual"
+            break  # Se a conversao for bem-sucedida, sai do loop
+        except Exception as e:
+            print(f"Erro: {e}. Por favor, tente novamente.")  # Exibe o erro e volta ao inicio do loop
