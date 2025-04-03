@@ -1,65 +1,79 @@
-# Projeto de um conversor de moedas simples para uso de estudo.
+#Projeto de um conversor de moedas simples para uso de estudo.
 
-#Importacao de bibliotecas
-
+#Importação de biblioteca.
 import requests
 
-#funcao
-def obt_taxa_camb(moeda_de_origem, moeda_de_destino):
+#Função para obter a taxa de cambio.
+def taxa_camb(moeda_orig, moeda_dest):
 
-# API para obter a taxa de cambio para moeda de origem
-    url = f"https://api.exchangerate-api.com/v4/latest/{moeda_de_origem}"
-
-    resposta = requests.get(url)  # Corrigido request.get(url) para requests.get(url)
+#URL da API para obter a taxa de cambio para a moeda de origem.
+    url = f"https://api.exchangerate-api.com/v4/latest/{moeda_orig}"
+    resposta = requests.get(url)  
 
     if resposta.status_code != 200:
-        raise Exception("Erro ao buscar taxa de cambio")
+        raise Exception("Erro ao buscar taxa de câmbio.")
+    
+    return resposta.json()["rates"].get(moeda_dest, None)  
 
-# converter resposta para JSON
-    dados = resposta.json()
-
-#  retornar resposta da taxa de cambio
-
-    return dados["rates"].get(moeda_de_destino, None)
-
-def conver_moeda(valor, moeda_de_origem, moeda_de_destino):
-
-#obter taxa cambio
-    taxa = obt_taxa_camb(moeda_de_origem, moeda_de_destino)
+#função para conversao de moeda.
+def conver_moeda(valor, moeda_orig, moeda_dest):
+    taxa = taxa_camb(moeda_orig, moeda_dest)
 
     if taxa is None:
-        raise ValueError("Moeda de destino Invalida")
+        raise ValueError("Moeda de destino inválida.")
+
     return round(valor * taxa, 2)
 
-if __name__ == "__main__":  # Corrigido "__name__" para "__main__"
+
+if __name__ == "__main__":  
+    #mensagem inicial do programa.
     print("Conversor de Moedas")
 
-#painel usuario
+    #painel do usuario.
+    nome = input("Olá, como vai? Digite seu nome aqui: ").strip()
+    
+    print(f"Olá, {nome}, é um prazer lhe ajudar com a sua conversão de moeda!")
 
-#melhorando o painel.
-    nome = str(input("Olá como vai? Digite seu nome aqui!"))
-    print(f'Olá {nome} é um prazer lhe ajudar com a sua conversão de moeda')
+#loop até que a conversao seja bem sucedida.
+    while True: 
+        moeda_orig = input("Digite a moeda de origem (Ex: BRL, USD, EUR): ").strip().upper()
 
-    while True:  # Mantem o loop ate que a conversao seja bem-sucedida
-        moeda_de_origem = input("Digite a moeda de origem(Ex: BRL, USD, EUR)").upper()
-        moeda_de_destino = input("Digite a moeda de Destino(Ex: BRL, USD, EUR)").upper()
-        valor = float(input("Digite o Valor aqui"))
+#solicita a moeda de destino.
+        moeda_dest = input("Digite a moeda de destino (Ex: BRL, USD, EUR): ").strip().upper()
 
         try:
-            result = conver_moeda(valor, moeda_de_origem, moeda_de_destino)
-            print(f"{valor} {moeda_de_origem} igual à {result} {moeda_de_destino}")  # Corrigido "iqual" para "igual"
-            
-        except Exception as e:
-            print(f"Erro: {e}. Por favor, tente novamente.")  # Exibe o erro e volta ao inicio do loop
-            continue  # Volta para o inicio do loop sem perguntar se quer continuar
+#solicita o valor a ser convertido.
+            valor = float(input("Digite o valor aqui: "))
 
-        # Pergunta ao usuario se deseja continuar ou sair
+#converte o valor usando a taxa de cambio obtida.
+            result = conver_moeda(valor, moeda_orig, moeda_dest)
+
+#exibe o resultado da conversao
+            print(f"{valor} {moeda_orig} é igual a {result} {moeda_dest}") 
+
+        except ValueError:
+#exibe mensagem de erro caso o usuario insira um valor invalido.
+            print("Erro: Valor inválido. Certifique-se de digitar um número.")  
+            continue
+
+        except Exception as e:
+#exibe o erro retornado pela função e reinicia o processo.
+            print(f"Erro: {e}. Por favor, tente novamente.")  
+            continue  
+
+#pergunta ao usuario se deseja continuar ou sair.
         while True:
-            resposta = input(f"Olá {nome}, deseja fazer uma nova conversão? (S/N): ").strip().upper()
+            resposta = input(f"Olá, {nome}, deseja fazer uma nova conversão? (S/N): ").strip().upper()
+
+#encerra o programa caso o usuario escolha "N"
             if resposta == "N":
                 print(f"Obrigado por usar o conversor, {nome}! Até mais!")
-                exit()  # Encerra o programa
+                exit()  
+
+#reinicia o processo caso o usuario escolha "S"
             elif resposta == "S":
-                break  # Sai do loop de pergunta e reinicia o processo
+                break  
+
+#exibe erro caso a entrada não seja válida
             else:
                 print("Opção inválida! Digite 'S' para continuar ou 'N' para sair.")
