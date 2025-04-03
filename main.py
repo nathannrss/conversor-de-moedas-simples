@@ -36,6 +36,9 @@ if __name__ == "__main__":  # Corrigido "__name__" para "__main__"
 
 #painel usuario
 
+#melhorando o painel.
+    nome = str(input("Olá como vai? Digite seu nome aqui!"))
+    print(f'Olá {nome} é um prazer lhe ajudar com a sua conversão de moeda')
     moeda_de_origem = input("Digite a moeda de origem(Ex: BRL, USD, EUR)").upper()
     moeda_de_destino = input("Digite a moeda de Destino(Ex: BRL, USD, EUR)").upper()
     valor = float(input("Digite o Valor aqui"))
