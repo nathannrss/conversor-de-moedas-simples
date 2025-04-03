@@ -10,7 +10,7 @@ def obt_taxa_camb(moeda_de_origem, moeda_de_destino):
 # API para obter a taxa de cambio para moeda de origem
     url = f"https://api.exchangerate-api.com/v4/latest/{moeda_de_origem}"
 
-    resposta = request.get(url)
+    resposta = requests.get(url)  # Corrigido request.get(url) para requests.get(url)
 
     if resposta.status_code != 200:
         raise Exception("Erro ao buscar taxa de cambio")
@@ -31,7 +31,7 @@ def conver_moeda(valor, moeda_de_origem, moeda_de_destino):
         raise ValueError("Moeda de destino Invalida")
     return round(valor * taxa, 2)
 
-if __name__ == "__name__":
+if __name__ == "__main__":  # Corrigido "__name__" para "__main__"
     print("Conversor de Moedas")
 
 #painel usuario
@@ -42,4 +42,7 @@ if __name__ == "__name__":
 
     try:
         result = conver_moeda(valor, moeda_de_origem, moeda_de_destino)
-        
+        print(f"{valor} {moeda_de_origem} igual à {result} {moeda_de_destino}")  # Corrigido "iqual" para "igual"
+
+    except Exception as e:
+        print(f"Erro: {e}")
