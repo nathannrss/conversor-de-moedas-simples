@@ -1,0 +1,1 @@
+# Projeto de um conversor de moedas simples para uso de estudo.
