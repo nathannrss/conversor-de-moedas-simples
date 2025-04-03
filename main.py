@@ -48,6 +48,18 @@ if __name__ == "__main__":  # Corrigido "__name__" para "__main__"
         try:
             result = conver_moeda(valor, moeda_de_origem, moeda_de_destino)
             print(f"{valor} {moeda_de_origem} igual à {result} {moeda_de_destino}")  # Corrigido "iqual" para "igual"
-            break  # Se a conversao for bem-sucedida, sai do loop
+            
         except Exception as e:
             print(f"Erro: {e}. Por favor, tente novamente.")  # Exibe o erro e volta ao inicio do loop
+            continue  # Volta para o inicio do loop sem perguntar se quer continuar
+
+        # Pergunta ao usuario se deseja continuar ou sair
+        while True:
+            resposta = input(f"Olá {nome}, deseja fazer uma nova conversão? (S/N): ").strip().upper()
+            if resposta == "N":
+                print(f"Obrigado por usar o conversor, {nome}! Até mais!")
+                exit()  # Encerra o programa
+            elif resposta == "S":
+                break  # Sai do loop de pergunta e reinicia o processo
+            else:
+                print("Opção inválida! Digite 'S' para continuar ou 'N' para sair.")
