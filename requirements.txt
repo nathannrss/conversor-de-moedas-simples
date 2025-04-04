@@ -1,0 +1,5 @@
+#dependencias do projeto
+flake8
+pytest
+requests
+colorama
