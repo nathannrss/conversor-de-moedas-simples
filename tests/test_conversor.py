@@ -1,3 +1,4 @@
+
 import pytest
 
 from main import conver_moeda, taxa_camb 
@@ -25,4 +26,5 @@ def test_taxa_camb_invalida():
 # teste para converter um valor zero
 def test_conversao_zero():
     resultado = conver_moeda(0, "USD", "BRL")
-    assert resultado == 0 
+    assert resultado == 0
+    
