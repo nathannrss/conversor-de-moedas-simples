@@ -31,22 +31,24 @@ jobs:
         run: PYTHONPATH=. pytest tests/
 
   qualidade-pr:
-    name: regras de qualidade para Pull Requests
+    name: Regras de qualidade para Pull Requests
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
     steps:
-      - name: Enforce PR Quality
+      - name: Aplicar regras de qualidade ao PR
         uses: spiceai/pulls-with-spice-action@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           require_title_min_length: '10'
-          require_description_min_length: '50'
-          required_labels_any: 'bug,feature,enhancement'
-          required_labels_all: 'triage'
-          banned_labels: 'invalid,wontfix'
-          require_assignee: 'true'
-          required_issue_types: 'bug,enhancement,task'
+          require_description_min_length: '20'
+          required_labels_any: 'bug,feature'
+          required_issue_types: 'bug,enhancement'
           enforce_draft: 'false'
-          custom_error_messages: '{"title_too_short": "Dê um título mais descritivo para o PR."}'
+          custom_error_messages: >
+            {
+              "title_too_short": "Melhorar o título",
+              "description_too_short": "Adicione uma descrição mais detalhada.",
+              "missing_any_labels": "Escolha pelo menos um label",
+              "invalid_issue_type": "Adicione o tipo da issue no título ou descrição (ex: bug: conserta erro na conversão)."
+            }
