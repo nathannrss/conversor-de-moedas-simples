@@ -2,7 +2,7 @@
 
 #Importação de biblioteca.
 import requests
-from colorama import Fore, Style, init  
+from colorama import Fore, init  
 
 init(autoreset=True)
 
