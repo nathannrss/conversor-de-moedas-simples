@@ -1,20 +1,16 @@
-# continuous integration conversor de moedas simples
 name: CI Conversor De Moedas Simples
+
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
-  
 
 jobs:
   executar-testes:
+    name: Testes com Pytest
     runs-on: ubuntu-latest
-
     steps:
-      - name: Executar testes com Pytest
+      - name: Checkout do Código
         uses: actions/checkout@v4
 
       - name: Configurar Python
@@ -22,14 +18,35 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Instalar pacotes e dependências
+      - name: Instalar dependencias
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install flake8 pytest requests
 
-      - name: Analisar código Flake8
+      - name: Analise com Flake8
         run: flake8 .
 
       - name: Executar testes com Pytest
         run: PYTHONPATH=. pytest tests/
+
+  qualidade-pr:
+    name: regras de qualidade para Pull Requests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Enforce PR Quality
+        uses: spiceai/pulls-with-spice-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          require_title_min_length: '10'
+          require_description_min_length: '50'
+          required_labels_any: 'bug,feature,enhancement'
+          required_labels_all: 'triage'
+          banned_labels: 'invalid,wontfix'
+          require_assignee: 'true'
+          required_issue_types: 'bug,enhancement,task'
+          enforce_draft: 'false'
+          custom_error_messages: '{"title_too_short": "Dê um título mais descritivo para o PR."}'
