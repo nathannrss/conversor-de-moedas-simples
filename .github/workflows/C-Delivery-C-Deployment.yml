@@ -12,15 +12,15 @@ jobs:
       - name: checkout do codigo
         uses: actions/checkout@v4
 
-      - name: compactar arquivos com tar
+      - name: compactar arquivos com zip
         run: |
-          tar -cvf projeto.tar main.py requirements.txt README.md tests/
+          zip -r projeto.zip main.py requirements.txt README.md tests/
 
       - name: fazer upload do artefato
         uses: actions/upload-artifact@v4
         with:
-          name: projeto-tar
-          path: projeto.tar
+          name: projeto-zip
+          path: projeto.zip
           if-no-files-found: error      
           overwrite: true                
 
@@ -31,14 +31,14 @@ jobs:
       - name: baixar artefato do job delivery
         uses: actions/download-artifact@v4
         with:
-          name: projeto-tar
+          name: projeto-zip
           path: ./deploy-artifact
 
       - name: listar conteudo compactado
         run: ls -R ./deploy-artifact
 
       - name: descompactar artefato
-        run: tar -xvf ./deploy-artifact/projeto.tar -C ./deploy-artifact
+        run: unzip ./deploy-artifact/projeto.zip -d ./deploy-artifact
 
       - name: listar conteudo final
         run: ls -R ./deploy-artifact
