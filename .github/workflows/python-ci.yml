@@ -1,5 +1,6 @@
 # continuous integration conversor de moedas simples
 name: CI Conversor De Moedas Simples
+
 on:
   push:
     branches:
@@ -7,7 +8,6 @@ on:
   pull_request:
     branches:
       - main
-  
 
 jobs:
   executar-testes:
@@ -33,3 +33,21 @@ jobs:
 
       - name: Executar testes com Pytest
         run: PYTHONPATH=. pytest tests/
+
+  # analisar o codigo com Pylint e com code scanning.
+  analisar-codigo:
+    name: Analise de Codigo com Pylint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do Codigo
+        uses: actions/checkout@v4
+
+      - name: Instalar dependencias Pylint
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint
+
+      - name: Executar Pylint e gerar relatorio SARIF
+        uses: advanced-security/python-lint-code-scanning-action@v1
+        with:
+          linter: pylint
