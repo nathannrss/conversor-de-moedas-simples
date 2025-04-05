@@ -8,9 +8,9 @@ on:
   pull_request:
     branches:
       - main
-    
- # correção permissão para upload SARIF 
- permissions:
+
+# correção permissão para upload SARIF 
+permissions:
   contents: read
   security-events: write
 
