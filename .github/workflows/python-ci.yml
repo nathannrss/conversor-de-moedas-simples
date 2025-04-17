@@ -66,7 +66,7 @@ jobs:
       - name: Notificar sucesso no Discord
         uses: appleboy/discord-action@v1.2.0
         with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          webhook_id: ${{ secrets.DISCORD_WEBHOOK }}
           username: GitHub Actions Bot
           avatar_url: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
           color: "#00ff00"
@@ -86,12 +86,12 @@ jobs:
       - name: Notificar falha no Discord
         uses: appleboy/discord-action@v1.2.0
         with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          webhook_id: ${{ secrets.DISCORD_WEBHOOK }}
           username: GitHub Actions Bot
-          #avatar_url: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+          avatar_url: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
           color: "#ff0000"
           message: |
-            Continuous Integration falhou.
+            Continuous Integration falhou!!!
             Repositório: ${{ github.repository }}
             Branch: ${{ github.ref_name }}
             Autor: ${{ github.actor }}
