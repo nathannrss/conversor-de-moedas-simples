@@ -69,10 +69,11 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/conversor-moedas:latest
 
+ # notificação de sucesso         
   discord-success:
-    needs: docker
+    needs: docker         # só roda se jobs docker tiver sucesso
     runs-on: ubuntu-latest
-    if: success()  # Só executa se o fluxo de CI/CD for bem-sucedido
+    if: success() 
     steps:
       - name: Notificar sucesso no Discord
         uses: appleboy/discord-action@v1.2.0
@@ -87,8 +88,9 @@ jobs:
             Commit: ${{ github.event.head_commit.message }}
           color: "#00ff00"  
 
+#notificação de falha
   discord-failure:
-    needs: docker
+    needs: docker       # só roda se jobs docker falhar
     runs-on: ubuntu-latest
     if: failure()  
     steps:
