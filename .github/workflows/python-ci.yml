@@ -9,7 +9,7 @@ on:
     branches:
       - main
 
-# correção permissão para upload SARIF 
+#permissão para upload SARIF 
 permissions:
   contents: read
   security-events: write
@@ -39,7 +39,7 @@ jobs:
       - name: Executar testes com Pytest
         run: PYTHONPATH=. pytest tests/
 
-  # analisar o codigo com Pylint e com code scanning.
+# analisar o codigo com Pylint e com code scanning.
   analisar-codigo:
     name: Analise de Codigo com Pylint
     runs-on: ubuntu-latest
@@ -56,3 +56,43 @@ jobs:
         uses: advanced-security/python-lint-code-scanning-action@v1
         with:
           linter: pylint
+
+# notificação de sucesso no discord
+  discord-success:
+    needs: [executar-testes, analisar-codigo]
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Notificar sucesso no Discord
+        uses: appleboy/discord-action@v1.2.0
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          username: GitHub Actions Bot
+          avatar_url: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+          color: "#00ff00"
+          message: |
+            Continuous Integration executado com sucesso!!!
+            Repositório: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Autor: ${{ github.actor }}
+            Commit: ${{ github.event.head_commit.message }}
+
+# notificação de falha no discord
+  discord-failure:
+    needs: [executar-testes, analisar-codigo]
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - name: Notificar falha no Discord
+        uses: appleboy/discord-action@v1.2.0
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          username: GitHub Actions Bot
+          avatar_url: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+          color: "#ff0000"
+          message: |
+            Continuous Integration falhou!!!
+            Repositório: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Autor: ${{ github.actor }}
+            Commit: ${{ github.event.head_commit.message }}
