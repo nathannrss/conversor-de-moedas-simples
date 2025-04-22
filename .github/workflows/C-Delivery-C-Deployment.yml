@@ -14,7 +14,7 @@ jobs:
 
       - name: compactar arquivos com zip
         run: |
-          zip -r projeto.zip main.py requirements.txt README.md tests/
+          zip -r projeto.zip src/ requirements.txt README.md test/
 
       - name: fazer upload do artefato
         uses: actions/upload-artifact@v4
