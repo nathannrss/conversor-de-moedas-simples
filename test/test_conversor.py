@@ -1,16 +1,16 @@
 
 import pytest
 
-from main import conver_moeda, taxa_camb
+from src.main import conver_moeda, taxa_camb
 
-# teste para ver se conversao retorna um numero.
+# teste para verificar se a conversao retorna um numero.
 
 
 def test_conversao_valida():
     resultado = conver_moeda(10, "USD", "BRL")
     assert isinstance(resultado, float)
 
-# teste se a taxa de cambio é buscada corretamente.
+# teste para verificar se a taxa de cambio é buscada corretamente.
 
 
 def test_taxa_camb():

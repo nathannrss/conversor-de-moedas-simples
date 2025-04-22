@@ -14,7 +14,7 @@ jobs:
 
       - name: compactar arquivos com zip
         run: |
-          zip -r projeto.zip main.py requirements.txt README.md tests/
+          zip -r projeto.zip src/ requirements.txt README.md test/
 
       - name: fazer upload do artefato
         uses: actions/upload-artifact@v4
@@ -69,7 +69,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/conversor-moedas:latest
 
- # notificação de sucesso         
+  # notificação de sucesso         
   discord-success:
     needs: docker         # só roda se jobs docker tiver sucesso
     runs-on: ubuntu-latest
@@ -88,7 +88,7 @@ jobs:
             Commit: ${{ github.event.head_commit.message }}
           color: "#00ff00"  
 
-#notificação de falha
+  # notificação de falha
   discord-failure:
     needs: docker       # só roda se jobs docker falhar
     runs-on: ubuntu-latest
@@ -105,4 +105,4 @@ jobs:
             Branch: ${{ github.ref_name }}
             Autor: ${{ github.actor }}
             Commit: ${{ github.event.head_commit.message }}
-          color: "#ff0000"  
+          color: "#ff0000"
