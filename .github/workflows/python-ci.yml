@@ -37,7 +37,9 @@ jobs:
         run: flake8 .
 
       - name: Executar testes com Pytest
-        run: PYTHONPATH=. pytest tests/
+        run: |
+          export PYTHONPATH=.
+          pytest test/
 
 # analisar o codigo com Pylint e com code scanning.
   analisar-codigo:
